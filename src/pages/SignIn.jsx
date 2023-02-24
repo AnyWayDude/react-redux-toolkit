@@ -1,10 +1,16 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
+    const navigate = useNavigate();
     return (
         <main className='sign-in-page'>
             <h1 className='visually-hidden'>Travel App</h1>
-            <form className='sign-in-form' autocomplete="off">
+            <form
+                className='sign-in-form'
+                autocomplete="off"
+                onSubmit={() => navigate("/")}
+            >
                 <h2 className='sign-in-form__title'>Sign In</h2>
                 <label className='input'>
                     <span className='input__heading'>Email</span>
@@ -13,6 +19,7 @@ export default function SignIn() {
                 <label class="input">
                     <span className='input__heading'>Password</span>
                     <input
+                        minLength="3"
                         data-test-id="auth-password"
                         name="password"
                         type="password"
@@ -26,13 +33,13 @@ export default function SignIn() {
             </form>
             <span>
                 Don't have an account?
-                <a
+                <Link
                     data-test-id="auth-sign-up-link"
-                    href="./sign-up.html"
+                    to="/sign-up"
                     className='sign-in-form__link'
                 >
                     Sign Up
-                </a>
+                </Link>
             </span>
         </main>
 
