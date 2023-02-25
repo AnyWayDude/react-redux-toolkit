@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom';
 import tripsData from '../../data/trips.json'
 
 
-export default function Modal({ active, setActive }) {
+export default function Modal({ active, setActive, createPost }) {
     const { id } = useParams();
     const selectedTrip = tripsData.find((trip) => trip.id === id);
+    const [date, setdate] = useState('');
     const [count, setCount] = useState(1);
     const total = useMemo(() => selectedTrip.price * count, [selectedTrip, count]);
     const minDate = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split("T")[0];
@@ -50,6 +51,8 @@ export default function Modal({ active, setActive }) {
                         <span className="input__heading">Date</span>
                         <input
                             data-test-id="book-trip-popup-date"
+                            value={date}
+                            onChange={(e) => setdate(e.target.value)}
                             name="date"
                             type="date"
                             min={minDate}
@@ -79,6 +82,24 @@ export default function Modal({ active, setActive }) {
                         </output>
                     </span>
                     <button
+                        onClick={(e) => {
+                            e.preventDefault()
+                            setActive(false)
+                            createPost({
+                                "id": "73b7df68-62f6-4a5f-9c87-f971637ac7a0",
+                                "userId": "1dd97a12-848f-4a1d-8a7d-34a2132fca94",
+                                "tripId": selectedTrip,
+                                "guests": count,
+                                "date": date,
+                                "trip": {
+                                    "title": selectedTrip.title,
+                                    "duration": 19,
+                                    "price": 5395
+                                },
+                                "totalPrice": total,
+                                "createdAt": "2022-05-22T17:42:49.537Z"
+                            })
+                        }}
                         data-test-id="book-trip-popup-submit"
                         className="button"
                         type="submit"

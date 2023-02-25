@@ -2,12 +2,23 @@ import React, { useState } from 'react';
 import trips from '../data/trips.json';
 import { useParams } from 'react-router-dom';
 import Modal from '../components/UI/Modal';
+import { BookingContext } from '../context/booking-context';
 
 
 export default function Trip() {
+    const { bookings, setBookings } = React.useContext(BookingContext);
     const { id } = useParams()
     const selectedTrip = trips.find(e => e.id === id)
     const [modalActive, setModalActive] = useState(false)
+    const [booking, setBooking] = useState()
+
+
+
+    const createPost = (newPost) => {
+        setBookings([...bookings, newPost])
+    }
+
+
     return (
         <main class="trip-page">
             <h1 class="visually-hidden">Travel App</h1>
@@ -59,7 +70,7 @@ export default function Trip() {
                     </button>
                 </div>
             </div>
-            <Modal active={modalActive} setActive={setModalActive} />
+            <Modal createPost={createPost} active={modalActive} setActive={setModalActive} />
         </main>
 
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function BookItem({ book }) {
+export default function BookItem({ book, remove }) {
     return (
         <li data-test-id="booking" class="booking">
             <h3 data-test-id="booking-title" class="booking__title">{book.trip.title}</h3>
@@ -17,6 +17,8 @@ export default function BookItem({ book }) {
                 data-test-id="booking-cancel"
                 class="booking__cancel"
                 title="Cancel booking"
+                onClick={() => remove(book)}
+
             >
                 <span class="visually-hidden">Cancel booking</span>
                 ×
