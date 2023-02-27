@@ -1,13 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
+    const navigate = useNavigate();
 
     return (
 
         <main class="sign-up-page">
             <h1 class="visually-hidden">Travel App</h1>
-            <form class="sign-up-form" autocomplete="off">
+            <form
+                class="sign-up-form"
+                autocomplete="off"
+                onSubmit={() => navigate("/")}
+            >
                 <h2 class="sign-up-form__title">Sign Up</h2>
                 <label class="input">
                     <span class="input__heading">Full name</span>
