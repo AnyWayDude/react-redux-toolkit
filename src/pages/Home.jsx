@@ -38,7 +38,7 @@ export default function Home() {
             <h1 className="visually-hidden">Travel App</h1>
             <section className="trips-filter">
                 <h2 className="visually-hidden">Trips filter</h2>
-                <form className="trips-filter__form" autocomplete="off">
+                <form className="trips-filter__form" autoComplete="off">
                     <label className="trips-filter__search input">
                         <span className="visually-hidden">Search by name</span>
                         <input

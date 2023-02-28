@@ -27,7 +27,7 @@ export default function Modal({ active, setActive, createPost }) {
                 >
                     ×
                 </button>
-                <form className="book-trip-popup__form" autocomplete="off">
+                <form className="book-trip-popup__form" autoComplete="off">
                     <div className="trip-info">
                         <h3 data-test-id="book-trip-popup-title" className="trip-info__title">
                             {selectedTrip.title}

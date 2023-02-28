@@ -4,7 +4,7 @@ import { ReactComponent as HeartIcon } from '../../images/heart.svg';
 export default function Footer() {
     return (
         <footer className='footer'>
-            <span class="footer__text">
+            <span className="footer__text">
                 from
                 <a className='footer__link' href="https://binary-studio.com">
                     binary studio

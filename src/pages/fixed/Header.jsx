@@ -1,15 +1,9 @@
-import React, { useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { ReactComponent as BookingIcon } from '../../images/search.svg';
 import { ReactComponent as ProfileIcon } from '../../images/user.svg';
 
-export default function Header() {
-    const route = useLocation();
-    const authenticated = useMemo(() => {
-        const whiteList = ['/sign-in', '/sign-up']
-
-        return !whiteList.includes(route.pathname)
-    }, [route])
+export default function Header({ user, onUserLogout }) {
 
     return (
         <header className="header">
@@ -17,7 +11,7 @@ export default function Header() {
                 <Link data-test-id="header-logo" to="/" className="header__logo">
                     Travel App
                 </Link>
-                {authenticated ? (
+                {user ? (
                     <nav data-test-id="header-nav" className="header__nav">
                         <ul className="nav-header__list">
                             <li className="nav-header__item" title="Bookings">
@@ -46,16 +40,23 @@ export default function Header() {
                                             data-test-id="header-profile-nav-username"
                                             className="profile-nav__item profile-nav__username"
                                         >
-                                            John Doe
+                                            {user.fullName}
                                         </li>
                                         <li className="profile-nav__item">
                                             <Link
+                                                to={'/sign-in'}
                                                 data-test-id="header-profile-nav-sign-out"
-                                                to="/sign-in"
                                                 className="profile-nav__sign-out button"
                                             >
-                                                Sign Out
+                                                <button
+                                                    type='button'
+                                                    className='btn-out'
+                                                    onClick={onUserLogout}
+                                                >
+                                                    Sign Out
+                                                </button>
                                             </Link>
+
                                         </li>
                                     </ul>
                                 </div>

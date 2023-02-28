@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://travel-app-api.glitch.me/api/v1/'

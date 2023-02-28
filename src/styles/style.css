@@ -188,6 +188,15 @@ select {
     transition: background-color 0.2s ease;
 }
 
+.btn-out {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+}
+
+
 .button:hover {
     background-color: var(--color-blue-300);
 }
@@ -358,6 +367,7 @@ select {
 
 .profile-nav__sign-out {
     min-height: auto;
+    text-decoration: none;
 }
 
 /* footer */
