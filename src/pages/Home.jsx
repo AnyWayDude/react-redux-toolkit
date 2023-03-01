@@ -1,17 +1,29 @@
-import React, { useState, useMemo } from 'react';
-import trips from '../data/trips.json'
+import React, { useState, useMemo, useEffect } from 'react';
 import TripItem from '../components/TripItem';
 import SelectSort from '../components/UI/SelectSort';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadTrips } from '../app/features/trips/tripsAction';
+import Loader from '../components/UI/Loader';
 
 
 export default function Home() {
-    const [tripsData, setTripsData] = useState(trips);
+    const dispatch = useDispatch();
+
+    const { trips } = useSelector((state) => ({
+        trips: state.trips.collection
+    }));
+    const hasTrips = Boolean(trips.length);
+
+    useEffect(() => {
+        dispatch(loadTrips());
+    }, [dispatch]);
+
     const [sortLvl, setsortLvl] = useState();
     const [sortDuration, setsortDuration] = useState();
     const [search, setsearch] = useState('');
 
     const sortTrips = useMemo(() => {
-        let sortedTrips = [...tripsData]
+        let sortedTrips = [...trips];
 
         if (sortLvl) {
             return sortedTrips.filter((trip) => trip.level === sortLvl)
@@ -31,7 +43,13 @@ export default function Home() {
         return sortedTrips.filter(({ title }) =>
             title.toLowerCase().includes(search.toLowerCase()),
         );
-    }, [tripsData, search, sortLvl, sortDuration]);
+    }, [trips, search, sortLvl, sortDuration]);
+
+    if (!hasTrips) {
+        return (
+            <Loader />
+        );
+    }
 
     return (
         <main>

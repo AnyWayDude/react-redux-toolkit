@@ -49,7 +49,6 @@ export default function Header({ user, onUserLogout }) {
                                                 className="profile-nav__sign-out button"
                                             >
                                                 <button
-                                                    type='button'
                                                     className='btn-out'
                                                     onClick={onUserLogout}
                                                 >

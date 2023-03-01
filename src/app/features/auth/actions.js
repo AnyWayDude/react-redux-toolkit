@@ -46,12 +46,10 @@ const registry = createAsyncThunk(
             return rejectWithValue(error);
         }
     },
-
 );
 
 const logout = createAsyncThunk(actionsType.LOG_OUT, (_request) => {
     localStorage.removeItem("token");
-
     return null;
 });
 
