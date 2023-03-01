@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { loadCurrentUser, logout } from '../app/features/auth/actions';
 import { PublicRoute, PrivateRoute } from '../pages/authRoures';
 import Bookings from '../pages/Bookings';
@@ -29,6 +29,8 @@ export default function AppRouter() {
     useEffect(() => {
         if (hasToken) {
             dispatch(loadCurrentUser());
+        } else {
+            dispatch(logout());
         }
     }, [dispatch, hasToken]);
 

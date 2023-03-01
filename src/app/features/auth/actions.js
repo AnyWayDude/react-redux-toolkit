@@ -17,6 +17,9 @@ const login = createAsyncThunk(
             },
         ).then((response) => response.json());
         if (response.error) {
+            if (response.statusCode === 401) {
+                alert('Wrong password or email')
+            }
             return rejectWithValue(response);
         }
         localStorage.setItem("token", response.token);
@@ -28,7 +31,7 @@ const registry = createAsyncThunk(
     async (request, { rejectWithValue }) => {
         try {
             const response = await fetch(
-                "https://travel-app-api.glitch.me/api/v1/auth/sign-up",
+                BASE_URL + 'auth/sign-up',
                 {
                     method: "POST",
                     headers: {
@@ -37,6 +40,9 @@ const registry = createAsyncThunk(
                     body: JSON.stringify(request),
                 },
             ).then((response) => response.json());
+            if (response.statusCode === 400) {
+                alert('Fill in the fields correctly')
+            }
 
 
             localStorage.setItem("token", response.token);
@@ -58,7 +64,7 @@ const loadCurrentUser = createAsyncThunk(
     async (_request, { dispatch, rejectWithValue }) => {
         const token = localStorage.getItem("token");
         const response = await fetch(
-            "https://travel-app-api.glitch.me/api/v1/auth/authenticated-user",
+            BASE_URL + 'auth/authenticated-user',
             {
                 headers: {
                     "Content-Type": "application/json;charset=utf-8",
