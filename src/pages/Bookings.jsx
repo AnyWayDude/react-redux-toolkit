@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadBooking } from '../app/features/bookings/bookActions';
 import BookItem from '../components/BookItem';
+import NoBooks from '../components/NoBooks';
 import Loader from '../components/UI/Loader';
 
 export default function Bookings() {
@@ -19,7 +20,7 @@ export default function Bookings() {
 
     if (!hasBookings) {
         return (
-            <Loader />
+            <NoBooks />
         );
     }
 

@@ -70,13 +70,15 @@ export default function Modal({ active, setActive, trip, userId }) {
                     <label className="input">
                         <span className="input__heading">Date</span>
                         <input
+                            required
                             data-test-id="book-trip-popup-date"
+                            defaultValue={minDate}
                             value={date}
                             onChange={(e) => setdate(e.target.value)}
                             name="date"
                             type="date"
                             min={minDate}
-                            required
+
                         />
                     </label>
                     <label className="input">

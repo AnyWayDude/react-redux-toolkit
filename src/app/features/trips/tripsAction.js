@@ -24,23 +24,3 @@ const loadTrips = createAsyncThunk(
 );
 
 export { loadTrips }
-
-// async (_request, { rejectWithValue }) => {
-//         const token = localStorage.getItem("token");
-//         try {
-//             const response = await fetch(
-//                 BASE_URL + 'trips',
-//                 {
-//                     headers: {
-//                         "Content-Type": "application/json;charset=utf-8",
-//                         Authorization: `Bearer ${token}`,
-//                     },
-//                 },
-//             )
-//             const data = await response.json();
-//             return response;
-
-//         } catch (error) {
-//             return rejectWithValue(error);
-//         }
-//     },

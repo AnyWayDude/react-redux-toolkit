@@ -36,10 +36,10 @@ const registry = createAsyncThunk(
                     },
                     body: JSON.stringify(request),
                 },
-            )
+            ).then((response) => response.json());
 
-            const data = await response.json();
-            localStorage.setItem("token", data.token);
+
+            localStorage.setItem("token", response.token);
             return response.user;
 
         } catch (error) {
