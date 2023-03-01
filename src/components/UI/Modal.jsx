@@ -1,15 +1,35 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { createBooking } from '../../app/features/bookings/bookActions';
 import tripsData from '../../data/trips.json'
 
 
-export default function Modal({ active, setActive, createPost }) {
+export default function Modal({ active, setActive, trip, userId }) {
+    const dispatch = useDispatch();
     const { id } = useParams();
-    const selectedTrip = tripsData.find((trip) => trip.id === id);
+    // const selectedTrip = tripsData.find((trip) => trip.id === id);
     const [date, setdate] = useState('');
     const [count, setCount] = useState(1);
-    const total = useMemo(() => selectedTrip.price * count, [selectedTrip, count]);
-    const minDate = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split("T")[0];
+    const total = useMemo(() => trip.price * count, [trip, count]);
+    const minDate = new Date(new Date()
+        .setDate(new Date()
+            .getDate() + 1))
+        .toISOString()
+        .split("T")[0];
+
+    const handleLogin = useCallback(
+        () => {
+            dispatch(createBooking({
+                "tripId": trip.id,
+                "userId": userId,
+                "date": date,
+                "guests": count
+            }));
+            setActive(false)
+        },
+        [dispatch, trip.id, userId, date, count, setActive]
+    );
 
     return (
         <div
@@ -30,20 +50,20 @@ export default function Modal({ active, setActive, createPost }) {
                 <form className="book-trip-popup__form" autoComplete="off">
                     <div className="trip-info">
                         <h3 data-test-id="book-trip-popup-title" className="trip-info__title">
-                            {selectedTrip.title}
+                            {trip.title}
                         </h3>
                         <div className="trip-info__content">
                             <span
                                 data-test-id="book-trip-popup-duration"
                                 className="trip-info__duration"
                             >
-                                <strong>{selectedTrip.duration}</strong> days
+                                <strong>{trip.duration}</strong> days
                             </span>
                             <span
                                 data-test-id="book-trip-popup-level"
                                 className="trip-info__level"
                             >
-                                {selectedTrip.level}
+                                {trip.level}
                             </span>
                         </div>
                     </div>
@@ -82,27 +102,11 @@ export default function Modal({ active, setActive, createPost }) {
                         </output>
                     </span>
                     <button
-                        onClick={(e) => {
-                            e.preventDefault()
-                            setActive(false)
-                            createPost({
-                                "id": "73b7df68-62f6-4a5f-9c87-f971637ac7a0",
-                                "userId": "1dd97a12-848f-4a1d-8a7d-34a2132fca94",
-                                "tripId": selectedTrip,
-                                "guests": count,
-                                "date": date,
-                                "trip": {
-                                    "title": selectedTrip.title,
-                                    "duration": 19,
-                                    "price": 5395
-                                },
-                                "totalPrice": total,
-                                "createdAt": "2022-05-22T17:42:49.537Z"
-                            })
-                        }}
+                        onClick={handleLogin}
                         data-test-id="book-trip-popup-submit"
                         className="button"
-                        type="submit"
+                        type="button"
+
                     >
                         Book a trip
                     </button>

@@ -1,21 +1,34 @@
-import React, { useState } from 'react';
-import trips from '../data/trips.json';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Modal from '../components/UI/Modal';
-import { BookingContext } from '../context/booking-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadTrips } from '../app/features/trips/tripsAction';
+import Loader from '../components/UI/Loader';
 
 
 export default function Trip() {
-    const { bookings, setBookings } = React.useContext(BookingContext);
     const { id } = useParams()
-    const selectedTrip = trips.find(e => e.id === id)
     const [modalActive, setModalActive] = useState(false)
-    const [booking, setBooking] = useState()
+    const dispatch = useDispatch();
+    const { trips } = useSelector((state) => ({
+        trips: state.trips.collection,
+    }));
+    const { user } = useSelector((state) => ({
+        user: state.auth.user,
+    }));
+    const hasTrips = Boolean(trips.length);
 
+    useEffect(() => {
+        if (!hasTrips) {
+            dispatch(loadTrips());
+        }
+    }, [dispatch, hasTrips]);
 
+    const currentTrip = trips.find((trip) => trip.id === id);
+    const hasTrip = Boolean(currentTrip);
 
-    const createPost = (newPost) => {
-        setBookings([...bookings, newPost])
+    if (!hasTrip || !hasTrips) {
+        return <Loader />;
     }
 
 
@@ -25,24 +38,24 @@ export default function Trip() {
             <div class="trip">
                 <img
                     data-test-id="trip-details-image"
-                    src={selectedTrip.image}
+                    src={currentTrip.image}
                     class="trip__img"
                     alt="trip image"
                 />
                 <div class="trip__content">
                     <div class="trip-info">
                         <h3 data-test-id="trip-details-title" class="trip-info__title">
-                            {selectedTrip.title}
+                            {currentTrip.title}
                         </h3>
                         <div class="trip-info__content">
                             <span
                                 data-test-id="trip-details-duration"
                                 class="trip-info__duration"
                             >
-                                <strong>{selectedTrip.duration}</strong> days
+                                <strong>{currentTrip.duration}</strong> days
                             </span>
                             <span data-test-id="trip-details-level" class="trip-info__level">
-                                {selectedTrip.level}
+                                {currentTrip.level}
                             </span>
                         </div>
                     </div>
@@ -50,7 +63,7 @@ export default function Trip() {
                         data-test-id="trip-details-description"
                         class="trip__description"
                     >
-                        {selectedTrip.description}
+                        {currentTrip.description}
                     </div>
                     <div class="trip-price">
                         <span>Price</span>
@@ -58,7 +71,7 @@ export default function Trip() {
                             data-test-id="trip-details-price-value"
                             class="trip-price__value"
                         >
-                            {selectedTrip.price} $
+                            {currentTrip.price} $
                         </strong>
                     </div>
                     <button
@@ -70,7 +83,7 @@ export default function Trip() {
                     </button>
                 </div>
             </div>
-            <Modal createPost={createPost} active={modalActive} setActive={setModalActive} />
+            <Modal userId={user.id} trip={currentTrip} active={modalActive} setActive={setModalActive} />
         </main>
 
     );

@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteBooking } from '../app/features/bookings/bookActions';
 
 export default function BookItem({ book, remove }) {
+
+    const dispatch = useDispatch();
+
+    const handleLogin = useCallback(
+        () => dispatch(deleteBooking(
+            book.id
+        )),
+        [dispatch, book.id]
+    );
     return (
         <li data-test-id="booking" class="booking">
             <h3 data-test-id="booking-title" class="booking__title">{book.trip.title}</h3>
@@ -17,7 +28,7 @@ export default function BookItem({ book, remove }) {
                 data-test-id="booking-cancel"
                 class="booking__cancel"
                 title="Cancel booking"
-                onClick={() => remove(book)}
+                onClick={handleLogin}
 
             >
                 <span class="visually-hidden">Cancel booking</span>
